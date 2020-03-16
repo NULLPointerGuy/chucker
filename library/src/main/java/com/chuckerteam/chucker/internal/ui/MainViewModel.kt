@@ -33,6 +33,8 @@ internal class MainViewModel : ViewModel() {
     val throwables: LiveData<List<RecordedThrowableTuple>> = RepositoryProvider.throwable()
         .getSortedThrowablesTuples()
 
+    val storages:LiveData<List<String>> = RepositoryProvider.storage().getSharedPreferencesList()
+
     fun updateItemsFilter(searchQuery: String) {
         currentFilter.value = searchQuery
     }

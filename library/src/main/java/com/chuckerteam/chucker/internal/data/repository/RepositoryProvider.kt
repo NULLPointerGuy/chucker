@@ -12,6 +12,7 @@ internal object RepositoryProvider {
 
     private var transactionRepository: HttpTransactionRepository? = null
     private var throwableRepository: RecordedThrowableRepository? = null
+    private var storageRepository: StorageRepository? = null
 
     fun transaction(): HttpTransactionRepository {
         return checkNotNull(transactionRepository) {
@@ -25,6 +26,12 @@ internal object RepositoryProvider {
         }
     }
 
+    fun storage():StorageRepository{
+        return checkNotNull(storageRepository){
+            "You can't access the storage repository if you don't initialize it!"
+        }
+    }
+
     /**
      * Idempotent method. Must be called before accessing the repositories.
      */
@@ -33,6 +40,7 @@ internal object RepositoryProvider {
             val db = ChuckerDatabase.create(context)
             transactionRepository = HttpTransactionDatabaseRepository(db)
             throwableRepository = RecordedThrowableDatabaseRepository(db)
+            storageRepository = StorageRepository(context)
         }
     }
 }
